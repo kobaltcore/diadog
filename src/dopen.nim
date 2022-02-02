@@ -6,8 +6,6 @@ import wrapper
 
 proc single*(path = "", packages: seq[string] = @[], filters: seq[string] = @[]) =
   ## Select a single file.
-  # Example:
-  # open single --pack="Scenario_Archive" -f="zip" --pack="Image" -f="jpg,jpeg"
   if packages.len != filters.len:
     echo "Please specify a matching number of package names and filters."
     quit(1)
