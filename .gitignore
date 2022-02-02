@@ -1,0 +1,5 @@
+bin/
+.DS_Store
+nimcache/
+nimblecache/
+htmldocs/
