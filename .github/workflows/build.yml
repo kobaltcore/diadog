@@ -5,7 +5,7 @@ on: [push]
 jobs:
   upload-release:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [build-linux, build-macos]
+    needs: [build-linux-windows, build-macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         with:
           files: '*.zip'
 
-  build-linux:
+  build-linux-windows:
     runs-on: ubuntu-latest
     container: nimlang/nim
     steps:
@@ -26,10 +26,12 @@ jobs:
       - name: Build Project
         run: |
           apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y zip upx libgtk-3-dev libdbus-1-dev
+          DEBIAN_FRONTEND=noninteractive apt-get install -y mingw-64 zip upx libgtk-3-dev libdbus-1-dev
           nimble build_all_linux
+          nimble build_all_windows
       - name: Zip Artifacts
         run: |
+          zip -j widow-windows.zip bin/windows/*
           zip -j widow-linux.zip bin/linux/*
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
