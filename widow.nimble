@@ -19,11 +19,11 @@ requires "cligen >= 1.5.21"
 
 task open, "Executes 'nimble run' with extra compiler options.":
   let args = join(commandLineParams[3..^1], " ")
-  exec(&"nimble --gc:orc run open {args}")
+  exec(&"nimble --gc:orc run wopen {args}")
 
 task save, "Executes 'nimble run' with extra compiler options.":
   let args = join(commandLineParams[3..^1], " ")
-  exec(&"nimble --gc:orc run save {args}")
+  exec(&"nimble --gc:orc run wsave {args}")
 
 task build_all_macos, "Executes 'nimble build' with extra compiler options.":
   exec("nimble build -d:release --opt:size --gc:orc --os:macosx -d:strip -y")
