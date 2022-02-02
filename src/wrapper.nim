@@ -8,6 +8,12 @@ elif defined(linux):
   elif defined(widowPortal):
     {.passC: staticExec("pkg-config --cflags dbus-1"), passL: staticExec("pkg-config --libs dbus-1"), compile: "nfd-src/nfd_portal.cpp".}
 
+template istring*() =
+  when defined(windows):
+    cstring
+  else:
+    WideCString
+
 {.push header: "nfd-src/nfd.h".}
 
 type
@@ -20,9 +26,16 @@ type
   NFDPathSetEnum {.importc: "nfdpathsetenum_t".} = object
     `ptr`: pointer
 
-  FilterItem* {.importc: "nfdnfilteritem_t".} = object
-    name*: cstring
-    spec*: cstring
+when defined(windows):
+  type
+    FilterItem* {.importc: "nfdnfilteritem_t".} = object
+      name*: WideCString
+      spec*: WideCString
+else:
+  type
+    FilterItem* {.importc: "nfdnfilteritem_t".} = object
+      name*: cstring
+      spec*: cstring
 
 
 proc NFD_Init() {.importc.}
@@ -48,32 +61,60 @@ proc NFD_PathSet_FreeEnum(enumerator: var NFDPathSetEnum) {.importc.}
 
 proc NFD_PathSet_Free(pathSet: NFDPathSet) {.importc.}
 
-proc NFD_OpenDialogN(
-  outPath: var cstring,
-  filterList: ptr openArray[FilterItem] = nil,
-  filterCount: cint = 0,
-  defaultPath: cstring = "",
-): NFDResult {.importc.}
+when defined(windows):
+  proc NFD_OpenDialogN(
+    outPath: var WideCString,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: WideCString = newWideCString(""),
+  ): NFDResult {.importc.}
 
-proc NFD_OpenDialogMultipleN(
-  outPaths: var NFDPathSet,
-  filterList: ptr openArray[FilterItem] = nil,
-  filterCount: cint = 0,
-  defaultPath: cstring = "",
-): NFDResult {.importc.}
+  proc NFD_OpenDialogMultipleN(
+    outPaths: var NFDPathSet,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: WideCString = newWideCString(""),
+  ): NFDResult {.importc.}
 
-proc NFD_SaveDialogN(
-  outPath: var cstring,
-  filterList: ptr openArray[FilterItem] = nil,
-  filterCount: cint = 0,
-  defaultPath: cstring = "",
-  defaultName: cstring = "",
-): NFDResult {.importc.}
+  proc NFD_SaveDialogN(
+    outPath: var WideCString,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: WideCString = newWideCString(""),
+    defaultName: WideCString = newWideCString(""),
+  ): NFDResult {.importc.}
 
-proc NFD_PickFolderN(
-  outPath: var cstring,
-  defaultPath: cstring = "",
-): NFDResult {.importc.}
+  proc NFD_PickFolderN(
+    outPath: var WideCString,
+    defaultPath: WideCString = newWideCString(""),
+  ): NFDResult {.importc.}
+else:
+  proc NFD_OpenDialogN(
+    outPath: var cstring,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: cstring = "",
+  ): NFDResult {.importc.}
+
+  proc NFD_OpenDialogMultipleN(
+    outPaths: var NFDPathSet,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: cstring = "",
+  ): NFDResult {.importc.}
+
+  proc NFD_SaveDialogN(
+    outPath: var cstring,
+    filterList: ptr openArray[FilterItem] = nil,
+    filterCount: cint = 0,
+    defaultPath: cstring = "",
+    defaultName: cstring = "",
+  ): NFDResult {.importc.}
+
+  proc NFD_PickFolderN(
+    outPath: var cstring,
+    defaultPath: cstring = "",
+  ): NFDResult {.importc.}
 
 {.pop.}
 
@@ -81,15 +122,22 @@ proc NFD_PickFolderN(
 
 proc open_file_single*(default_path = "", filters: openArray[FilterItem] = []): string =
   NFD_Init()
-  var out_path: cstring
-  let retval = NFD_OpenDialogN(out_path, filters.unsafeAddr, filters.len.cint, default_path)
+  when defined(windows):
+    var out_path: ptr UncheckedArray[Utf16Char]
+    let retval = NFD_OpenDialogN(out_path, filters.unsafeAddr, filters.len.cint, newWideCString(default_path))
+  else:
+    var out_path: cstring
+    let retval = NFD_OpenDialogN(out_path, filters.unsafeAddr, filters.len.cint, default_path)
   NFD_Quit()
   return $out_path
 
 proc open_file_multiple*(default_path = "", filters: openArray[FilterItem] = []): seq[string] =
   NFD_Init()
   var out_paths: NFDPathSet
-  discard NFD_OpenDialogMultipleN(out_paths, filters.unsafeAddr, filters.len.cint, default_path)
+  when defined(windows):
+    discard NFD_OpenDialogMultipleN(out_paths, filters.unsafeAddr, filters.len.cint, newWideCString(default_path))
+  else:
+    discard NFD_OpenDialogMultipleN(out_paths, filters.unsafeAddr, filters.len.cint, default_path)
 
   var enumerator: NFDPathSetEnum
   discard NFD_PathSet_GetEnum(out_paths, enumerator)
@@ -112,14 +160,22 @@ proc open_file_multiple*(default_path = "", filters: openArray[FilterItem] = [])
 
 proc open_folder*(default_path = ""): string =
   NFD_Init()
-  var out_path: cstring
-  let retval = NFD_PickFolderN(out_path, default_path)
+  when defined(windows):
+    var out_path: ptr UncheckedArray[Utf16Char]
+    let retval = NFD_PickFolderN(out_path, newWideCString(default_path))
+  else:
+    var out_path: cstring
+    let retval = NFD_PickFolderN(out_path, default_path)
   NFD_Quit()
   return $out_path
 
 proc save_file*(default_name = "", default_path = "", filters: openArray[FilterItem] = []): string =
   NFD_Init()
-  var out_path: cstring
-  let retval = NFD_SaveDialogN(out_path, filters.unsafeAddr, filters.len.cint, default_path, default_name)
+  when defined(windows):
+    var out_path: ptr UncheckedArray[Utf16Char]
+    let retval = NFD_SaveDialogN(out_path, filters.unsafeAddr, filters.len.cint, newWideCString(default_path), newWideCString(default_name))
+  else:
+    var out_path: cstring
+    let retval = NFD_SaveDialogN(out_path, filters.unsafeAddr, filters.len.cint, default_path, default_name)
   NFD_Quit()
   return $out_path

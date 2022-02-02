@@ -11,7 +11,10 @@ proc single*(name = "", path = "", packages: seq[string] = @[], filters: seq[str
     quit(1)
   var filter_list: seq[FilterItem]
   for (iname, ifilter) in zip(packages, filters):
-    filter_list.add(FilterItem(name: iname.replace("_", " ").cstring, spec: ifilter.cstring))
+    when defined(windows):
+      filter_list.add(FilterItem(name: iname.replace("_", " ").newWideCString, spec: ifilter.newWideCString))
+    else:
+      filter_list.add(FilterItem(name: iname.replace("_", " ").cstring, spec: ifilter.cstring))
   let item = save_file(default_name = name, default_path = path, filters = filter_list)
   if item != "":
     echo item
