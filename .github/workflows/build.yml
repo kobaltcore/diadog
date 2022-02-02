@@ -12,7 +12,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: widow
+          name: diadog
       - name: Create Release
         uses: softprops/action-gh-release@v0.1.7
         with:
@@ -31,12 +31,12 @@ jobs:
           nimble build_all_windows
       - name: Zip Artifacts
         run: |
-          zip -j widow-windows.zip bin/windows/*
-          zip -j widow-linux.zip bin/linux/*
+          zip -j diadog-windows.zip bin/windows/*
+          zip -j diadog-linux.zip bin/linux/*
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
         with:
-          name: widow
+          name: diadog
           path: '*.zip'
 
   build-macos:
@@ -51,9 +51,9 @@ jobs:
           nimble build_all_macos
       - name: Zip Artifacts
         run: |
-          zip -j widow-macos.zip bin/macos/*
+          zip -j diadog-macos.zip bin/macos/*
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
         with:
-          name: widow
+          name: diadog
           path: '*.zip'
