@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Project
         run: |
+          apt-get update
           apt-get install -y zip upx libgtk-3-dev libdbus-1-dev
           nimble build_all_linux
       - name: Zip Artifacts
