@@ -4,9 +4,9 @@ elif defined(windows):
   {.passL: "-mwindows", compile: "nfd-src/nfd_win.cpp".}
 elif defined(linux):
   when defined(widowGTK):
-    {.passC: CFLAGS, compile: "nfd-src/nfd_gtk.cpp".}
+    {.passC: staticExec("pkg-config --cflags gtk+-3.0"), passL: staticExec("pkg-config --libs gtk+-3.0"), compile: "nfd-src/nfd_gtk.cpp".}
   elif defined(widowPortal):
-    {.passC: CFLAGS, compile: "nfd-src/nfd_portal.cpp".}
+    {.passC: staticExec("pkg-config --cflags dbus-1"), passL: staticExec("pkg-config --libs dbus-1"), compile: "nfd-src/nfd_portal.cpp".}
 
 {.push header: "nfd-src/nfd.h".}
 
