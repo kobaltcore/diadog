@@ -1,7 +1,7 @@
 when defined(macosx):
   {.passL: "-framework AppKit", compile: "nfd-src/nfd_cocoa.m".}
 elif defined(windows):
-  {.passL: "-mwindows", compile: "nfd-src/nfd_win.cpp".}
+  {.passL: "-mwindows -lole32 -luuid", compile: "nfd-src/nfd_win.cpp".}
 elif defined(linux):
   when defined(widowGTK):
     {.passC: staticExec("pkg-config --cflags gtk+-3.0"), passL: staticExec("pkg-config --libs gtk+-3.0"), compile: "nfd-src/nfd_gtk.cpp".}
