@@ -3,9 +3,9 @@ when defined(macosx):
 elif defined(windows):
   {.passL: "-mwindows -lole32 -luuid", compile: "nfd-src/nfd_win.cpp".}
 elif defined(linux):
-  when defined(widowGTK):
+  when defined(diadogGTK):
     {.passC: staticExec("pkg-config --cflags gtk+-3.0"), passL: staticExec("pkg-config --libs gtk+-3.0"), compile: "nfd-src/nfd_gtk.cpp".}
-  elif defined(widowPortal):
+  elif defined(diadogPortal):
     {.passC: staticExec("pkg-config --cflags dbus-1"), passL: staticExec("pkg-config --libs dbus-1"), compile: "nfd-src/nfd_portal.cpp".}
 
 template istring*() =
