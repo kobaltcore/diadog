@@ -506,7 +506,7 @@ void AppendSaveFileQueryDictEntryCurrentFile(DBusMessageIter& sub_iter,
         pathname_end = copy(name, name + name_len, pathname_end);
         *pathname_end++ = '\0';
     }
-    Free_Guard guard(pathname);
+    Free_Guard<char> guard(pathname);
     if (access(pathname, F_OK) != 0) return;
     DBusMessageIter sub_sub_iter;
     DBusMessageIter variant_iter;
