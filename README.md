@@ -22,6 +22,8 @@ Support for more platform is planned, specifically:
 - macOS arm64
 - Linux x64 (no GTK)
 
+This is based on work done by [nativefiledialog-extended](https://github.com/btzy/nativefiledialog-extended) and ships a slightly-modified version of its source to provide these binaries.
+
 ## Samples
 ```bash
 $ dopen single
