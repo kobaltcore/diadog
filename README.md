@@ -120,6 +120,14 @@ dsave single --pack="Image" --filter="jpg,jpeg"
 dsave single --pack="Image" --filter="jpg,jpeg" --pack="Archices" --filter="zip,tar,gz,rar"
 ```
 
+#### Invoking from Python
+```python
+from subprocess import run
+
+path = run(["./dopen", "single"], capture_output=True).stdout.decode().strip()
+paths = run(["./dopen", "many"], capture_output=True).stdout.decode().split()
+```
+
 ## Building
 Building diadog
 
