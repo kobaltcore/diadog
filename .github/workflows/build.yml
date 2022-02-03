@@ -28,7 +28,6 @@ jobs:
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y mingw-w64 zip upx libgtk-3-dev
           nimble build_linux_amd64
-          nimble build_linux_i386
           nimble build_windows_amd64
           nimble build_windows_i386
       - name: Zip Artifacts
