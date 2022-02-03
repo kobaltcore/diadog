@@ -34,7 +34,6 @@ jobs:
       - name: Zip Artifacts
         run: |
           zip -j diadog-linux-amd64.zip bin/amd64/linux/*
-          zip -j diadog-linux-i386.zip bin/i386/linux/*
           zip -j diadog-windows-amd64.zip bin/amd64/windows/*
           zip -j diadog-windows-i386.zip bin/i386/windows/*
       - name: Upload Artifacts
