@@ -36,7 +36,7 @@ jobs:
           zip -j diadog-windows-amd64.zip bin/amd64/windows/*
           zip -j diadog-windows-i386.zip bin/i386/windows/*
       - name: Upload Artifacts
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: diadog
           path: '*.zip'
@@ -59,7 +59,7 @@ jobs:
         run: |
           zip -j diadog-linux-i386.zip bin/i386/linux/*
       - name: Upload Artifacts
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: diadog
           path: '*.zip'
@@ -78,7 +78,7 @@ jobs:
         run: |
           zip -j diadog-macos-amd64.zip bin/amd64/macos/*
       - name: Upload Artifacts
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: diadog
           path: '*.zip'
