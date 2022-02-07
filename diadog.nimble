@@ -9,7 +9,6 @@ license = "MIT"
 srcDir = "src"
 bin = @["dopen", "dsave"]
 
-
 # Dependencies
 
 requires "nim >= 1.6.2"
