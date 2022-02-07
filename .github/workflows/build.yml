@@ -53,7 +53,9 @@ jobs:
           wget -O nim.tar.xz https://nim-lang.org/download/nim-1.6.2-linux_x32.tar.xz
           tar xf nim.tar.xz
           rm nim.tar.xz
-          export PATH="/nim-1.6.2/bin:$PATH"
+          export PATH="$GITHUB_WORKSPACE/nim-1.6.2/bin:$PATH"
+          echo $PATH
+          ls -al
           nimble build_linux_i386
       - name: Zip Artifacts
         run: |
