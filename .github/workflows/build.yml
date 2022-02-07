@@ -43,7 +43,6 @@ jobs:
 
   build-linux-i386:
     runs-on: ubuntu-latest
-    # container: i386/ubuntu:latest
     steps:
       - uses: actions/checkout@v2
       - name: Build Project

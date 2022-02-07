@@ -2,7 +2,7 @@ import strformat
 
 # Package
 
-version = "1.1.0"
+version = "1.2.0"
 author = "cobaltcore"
 description = "Cross-platform native file dialogs."
 license = "MIT"
