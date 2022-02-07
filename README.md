@@ -15,8 +15,9 @@ All file-related actions can optionally be supplied with a set of allowed file e
 diadog supports the following platforms:
 - Windows x64
 - Windows x32
-- macOS x64
 - Linux x64 (with GTK)
+- Linux x32 (with GTK)
+- macOS x64
 
 Support for more platform is planned, specifically:
 - macOS arm64
