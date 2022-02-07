@@ -54,8 +54,6 @@ jobs:
           tar xf nim.tar.xz
           rm nim.tar.xz
           export PATH="$GITHUB_WORKSPACE/nim-1.6.2/bin:$PATH"
-          echo $PATH
-          ls -al
           nimble build_linux_i386
       - name: Zip Artifacts
         run: |
