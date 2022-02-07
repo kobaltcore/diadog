@@ -19,7 +19,7 @@ diadog supports the following platforms:
 - Linux x32 (with GTK)
 - macOS x64
 
-Support for more platform is planned, specifically:
+Support for more platforms is planned, specifically:
 - macOS arm64
 - Linux x64 (no GTK)
 
