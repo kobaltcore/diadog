@@ -14,7 +14,7 @@ jobs:
         with:
           name: diadog
       - name: Create Release
-        uses: softprops/action-gh-release@v0.1.7
+        uses: softprops/action-gh-release@v1
         with:
           files: '*.zip'
 
