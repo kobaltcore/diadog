@@ -59,7 +59,7 @@ jobs:
         run: |
           zip -j diadog-linux-i386.zip bin/i386/linux/*
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: diadog
           path: '*.zip'
