@@ -870,6 +870,18 @@ char* MakeUniqueObjectPath(const char** handle_token_ptr) {
     return path;
 }
 
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_1[] =
+    "type='signal',sender='org.freedesktop.portal.Desktop',path='";
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_1_LEN =
+    sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_1) - 1;
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_2[] =
+    "',interface='org.freedesktop.portal.Request',member='Response',destination='";
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_2_LEN =
+    sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_2) - 1;
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_3[] = "'";
+constexpr const char STR_RESPONSE_SUBSCRIPTION_PATH_3_LEN =
+    sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_3) - 1;
+
 class DBusSignalSubscriptionHandler {
    private:
     char* sub_cmd;
@@ -906,18 +918,6 @@ class DBusSignalSubscriptionHandler {
     }
 
    private:
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_1[] =
-        "type='signal',sender='org.freedesktop.portal.Desktop',path='";
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_1_LEN =
-        sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_1) - 1;
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_2[] =
-        "',interface='org.freedesktop.portal.Request',member='Response',destination='";
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_2_LEN =
-        sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_2) - 1;
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_3[] = "'";
-    constexpr static const char STR_RESPONSE_SUBSCRIPTION_PATH_3_LEN =
-        sizeof(STR_RESPONSE_SUBSCRIPTION_PATH_3) - 1;
-
     static char* MakeResponseSubscriptionPath(const char* handle_path, const char* unique_name) {
         const size_t handle_path_len = strlen(handle_path);
         const size_t unique_name_len = strlen(unique_name);
