@@ -137,17 +137,19 @@ Building diadog
 ### Linux
 Ensure that `libgtk-3-dev` is installed.
 ```bash
-nimble build_all_linux
+nimble build_linux_amd64
+nimble build_linux_i386
 ```
 
 ### Windows
 The recommended way is to cross-compile from Linux via MingW. No extra dependencies are required.
 ```bash
-nimble build_all_windows
+nimble build_windows_amd64
+nimble build_windows_i386
 ```
 
 ### macOS
 No extra dependencies are required.
 ```bash
-nimble build_all_macos
+nimble build_macos_amd64
 ```
